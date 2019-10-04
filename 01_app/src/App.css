@@ -10,5 +10,17 @@ fill:blue;
   margin-right: 4px
 }
 .buttonclass{
-  margin-top: 5px
+  margin-top: 6px
+}
+.row1{
+  margin-top: 1px;
+}
+#fileupload{
+  background-color: azure
+}
+.upload{
+  margin-right: 1px;
+}
+.main{
+  text-align: center
 }

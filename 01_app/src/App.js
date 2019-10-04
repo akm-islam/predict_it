@@ -68,7 +68,7 @@ render() {
   return (
     <div>
 { /* Navbar starts here */ }
-        <Navbar color="faded" light expand="sm">
+        <Navbar style={{backgroundColor:"rgb(224,224,224,.3)"}} expand="sm" >
           <NavbarBrand href="/">PredictIt</NavbarBrand>
           <NavbarToggler/>
           <Collapse navbar>
@@ -93,8 +93,8 @@ render() {
           </Collapse>
         </Navbar>
 { /* File Upload (first column starts here) */ }
-        <Row>
-          <Col md="2" style={{padding:1}}>
+        <Row className="row1">
+          <Col md="2" style={{padding:0}} className="upload">
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
@@ -103,8 +103,8 @@ render() {
           </div>
           </Col>
 { /* Main view starts here */ }
-          <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
-          <Heatmap></Heatmap>
+          <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
+              <div><Heatmap></Heatmap></div>
           </Col>
         </Row>
 { /* Modal starts here */ }
