@@ -6,23 +6,20 @@ class App extends Component {
   constructor(props) {
   super(props);
   this.state = {
-    viewgrouptracker:2,
-    unionmade:[],
-    arr:[],
-    clickedA:[],
-    groups:[],
-    key:0,
-    componentDidUpdatecounter:0,
-    matrixdata:{},
-    sorted_groups:[],
-    mydata2: {},
-    popupdata:"",
-    popupdata2:"",
     file:{},
     modal: false,
+    xLabels:null,
+    yLabels:['Sun', 'Mon', 'Tue'],
+    data:null,
   }
  this.jsonHandler = this.jsonHandler.bind(this);
+ var xLabels = new Array(24).fill(0).map((_, i) => `${i}`);
+ this.setState({xLabels:xLabels})
+ const yLabels = ['Sun', 'Mon', 'Tue'];
+ var data = new Array(yLabels.length).fill(0).map(() => new Array(xLabels.length).fill(0).map(() => Math.floor(Math.random() * 100)));
+ this.setState({data:data})
 };
+
 //------------------------------------------------------------- Json Handler starts Here
 jsonHandler(){
 const self=this;
@@ -110,12 +107,7 @@ render() {
           </Col>
 { /* Main view starts here */ }
           <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
-          <div style={{width:"100%",height:"700px"}}>
-                  </div>      
-       //pop up window ends here
-       }
-      <div id="mySVG">
-      </div>
+         
           </Col>
         </Row>
 { /* Modal starts here */ }
@@ -134,7 +126,6 @@ render() {
           </ModalBody>
         </Modal>
 { /* Modal ends here */ }
- 
     </div>
     );
   }
