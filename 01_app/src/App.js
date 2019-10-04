@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
+import Heatmap from './Heatmap';
 class App extends Component {
   constructor(props) {
   super(props);
@@ -13,11 +14,8 @@ class App extends Component {
     data:null,
   }
  this.jsonHandler = this.jsonHandler.bind(this);
- var xLabels = new Array(24).fill(0).map((_, i) => `${i}`);
- this.setState({xLabels:xLabels})
- const yLabels = ['Sun', 'Mon', 'Tue'];
- var data = new Array(yLabels.length).fill(0).map(() => new Array(xLabels.length).fill(0).map(() => Math.floor(Math.random() * 100)));
- this.setState({data:data})
+
+
 };
 
 //------------------------------------------------------------- Json Handler starts Here
@@ -52,7 +50,6 @@ handleUpload=(e)=>{
   }
   axios({
     url:'http://localhost:5000/uploader',
-    //url:'http://localhost:5000/uploader',
     method:"POST",
     headers:{
     authorizition:'Hello'
@@ -90,7 +87,7 @@ render() {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <Button color="primary" size="md" onClick={this.jsonHandler}>Process</Button>
+                <Button color="warning" size="md" onClick={this.jsonHandler}>Process</Button>
               </NavItem>
             </Nav>
           </Collapse>
@@ -101,13 +98,13 @@ render() {
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
-              <Button className="buttonclass" color="secondary" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
+              <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
           </div>
           </Col>
 { /* Main view starts here */ }
           <Col md="10" style={{backgroundColor:"rgb(224,224,224,.3)",padding:1,overflow:"scroll"}}>
-         
+          <Heatmap></Heatmap>
           </Col>
         </Row>
 { /* Modal starts here */ }
