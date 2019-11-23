@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
 import Heatmap from './components/Heatmap';
 import * as algorithms from "./algorithms/fetch.js"
+import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input,Label,Form,FormText,ListGroup,ListGroupItem} from 'reactstrap';
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class App extends Component {
     xLabels:null,
     yLabels:['Sun', 'Mon', 'Tue'],
     data:null,
+    features:null,
   }
 };
 
@@ -45,9 +46,15 @@ handleUpload=(e)=>{
 }
 //-----------------------------------------------------------------JsonHandler
 jsonHandler=()=>{
-  var a=algorithms.jsonHandler().then(function(result) {
-    console.log(result)
+  const self=this;
+  algorithms.jsonHandler().then(function(result) {
+    self.setState({features:Object.values(result)})
   });
+  console.log(this.state.features)
+  var a=this.state.features!=null?this.state.features[0].map((item)=>{
+    console.log(item)
+    return item;
+  }):""
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
@@ -80,12 +87,21 @@ render() {
         </Navbar>
 { /* File Upload (first column starts here) */ }
         <Row className="row1">
-          <Col md="2" style={{padding:0}} className="upload">
+          <Col md="3" style={{padding:0}} className="upload">
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
               <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
             </FormGroup>
+            <div style={{overflow:"scroll"}}>
+          {this.state.features!=null?
+              Object.values(this.state.features[0]).map((item)=>{
+                return <div className="inputGroup">
+                <input id={item} name={item} type="checkbox"/>
+                <label htmlFor={item}>{item}</label>
+              </div>
+              }):""}
+          </div>
           </div>
           </Col>
 { /* Main view starts here */ }
