@@ -15,6 +15,7 @@ class App extends Component {
     yLabels:['Sun', 'Mon', 'Tue'],
     data:null,
     features:null,
+    dataset_name:null,
   }
 };
 
@@ -49,12 +50,9 @@ jsonHandler=()=>{
   const self=this;
   algorithms.jsonHandler().then(function(result) {
     self.setState({features:Object.values(result)})
+    self.setState({dataset_name:Object.keys(result)[0]})
   });
-  console.log(this.state.features)
-  var a=this.state.features!=null?this.state.features[0].map((item)=>{
-    console.log(item)
-    return item;
-  }):""
+  console.log(this.state.dataset_name)
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
@@ -87,13 +85,17 @@ render() {
         </Navbar>
 { /* File Upload (first column starts here) */ }
         <Row className="row1">
-          <Col md="3" style={{padding:0}} className="upload">
+          <Col md="2" style={{padding:0}} className="upload">
           <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"700px"}}>
+          {/* upload starts */ } 
+          { this.state.features==null?
             <FormGroup className="formclass">
               <Input type="file" name="fileupload" id="fileupload" onChange={(e)=>this.handleFile(e)} multiple={true}></Input>
               <Button className="buttonclass" color="info" size="sm" onClick={(e)=>this.handleUpload(e)} block>Upload</Button>
-            </FormGroup>
-            <div style={{overflow:"scroll"}}>
+            </FormGroup>:""}
+        {/* upload over */}
+            <div className="checkbox_container" style={{overflow:"scroll"}}>
+            {/*this.state.dataset_name!=null?<h6>{this.state.dataset_name}</h6>:""*/}
           {this.state.features!=null?
               Object.values(this.state.features[0]).map((item)=>{
                 return <div className="inputGroup">
@@ -108,22 +110,6 @@ render() {
           <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}> 
           </Col>
         </Row>
-{ /* Modal starts here */ }
-        <Modal isOpen={this.state.modal} toggle={this.toggle} backdrop={this.state.backdrop} size="xl" style={{maxWidth: '1600px', width: '90%'}}>
-          <ModalHeader toggle={this.toggle}>Modal Title</ModalHeader>
-          <ModalBody>
-          <Row>
-          <Col md="2" style={{padding:1}}>
-          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"400px"}}></div>
-          </Col>
-          <Col md="10" style={{padding:1}}>
-          <div style={{backgroundColor:"rgb(224,224,224,.3)",width:"100%",height:"400px"}}>
-          </div>
-          </Col>
-        </Row>
-          </ModalBody>
-        </Modal>
-{ /* Modal ends here */ }
     </div>
     );
   }
