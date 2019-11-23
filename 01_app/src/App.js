@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import {Button,Row,Col,Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem,Modal, ModalHeader, ModalBody, ModalFooter,FormGroup,Input } from 'reactstrap';
-import Heatmap from './Heatmap';
+import Heatmap from './components/Heatmap';
+import * as algorithms from "./algorithms/fetch.js"
+
 class App extends Component {
   constructor(props) {
   super(props);
@@ -13,30 +15,8 @@ class App extends Component {
     yLabels:['Sun', 'Mon', 'Tue'],
     data:null,
   }
- this.jsonHandler = this.jsonHandler.bind(this);
-
-
 };
 
-//------------------------------------------------------------- Json Handler starts Here
-jsonHandler(){
-const self=this;
-var url = "http://localhost:5000/uploader";
-var data = {myrequest: 'data'};
-fetch(url, {
-  method: 'POST', 
-  body: JSON.stringify(data),
-  headers:{
-    'Content-Type': 'application/json'
-  }
-}).then(res => res.json())
-.then(response => {
-  self.setState({mydata2:response.datasets_with_Attributes})
-  self.setState({unionmade:response.only_shared_attributes})
-  self.matrixgenerator()
-  return response;
-}).catch(error => console.error('Error:', error));
-}
 //-----------------------------------------------------------------Upload Files
 handleFile=(e)=>{
   let file=e.target.files
@@ -62,6 +42,12 @@ handleUpload=(e)=>{
   },(err)=>{
     console.log(err)
   })
+}
+//-----------------------------------------------------------------JsonHandler
+jsonHandler=()=>{
+  var a=algorithms.jsonHandler().then(function(result) {
+    console.log(result)
+  });
 }
 //-----------------------------------------------------------------Render function starts here  
 render() {
@@ -103,8 +89,7 @@ render() {
           </div>
           </Col>
 { /* Main view starts here */ }
-          <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}>
-              <div><Heatmap></Heatmap></div>
+          <Col className="main" style={{backgroundColor:"rgb(224,224,224,.3)",overflow:"scroll",padding:1}}> 
           </Col>
         </Row>
 { /* Modal starts here */ }
